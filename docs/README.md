@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.35)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.36)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -673,7 +673,8 @@ Compute your profit and loss (PnL) on NFT and ERC-20/memecoin trades, and genera
 1. Select the **wallets** to scan (by group or individually)
 2. Enter the token/NFT **contract address**
 3. Pick the type: **NFT** (ERC-721) or **ERC-20** (coins/memecoins)
-4. Click **Calculate**
+4. Pick the **chain**: Ethereum or Robinhood Chain (RH history comes from Blockscout — no Etherscan key needed there; WETH offers aren't tracked on RH)
+5. Click **Calculate**
 
 ### Displayed metrics
 
@@ -717,7 +718,7 @@ Click **Download** to save the success card as a PNG.
 - Current price via the DexScreener API
 - Micro-cap friendly display (subscript notation for very small prices)
 
-> Note: PnL currently covers Ethereum mainnet (Etherscan V2 free tier).
+> Ethereum uses the Etherscan V2 API (key required); Robinhood Chain uses Blockscout (free, no key).
 
 ---
 
