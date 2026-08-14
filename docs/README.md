@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.30)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.31)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -27,11 +27,12 @@
 17. [Profit Calculator](#17-profit-calculator)
 18. [OpenSea Listing Tool](#18-opensea-listing-tool)
 19. [Drop Discovery Tool](#19-drop-discovery-tool)
-20. [Activity Feed](#20-activity-feed)
-21. [Quick Task](#21-quick-task)
-22. [Security](#22-security)
-23. [Auto-Update](#23-auto-update)
-24. [FAQ / Troubleshooting](#24-faq--troubleshooting)
+20. [RH FireHouse](#20-rh-firehouse)
+21. [Activity Feed](#21-activity-feed)
+22. [Quick Task](#22-quick-task)
+23. [Security](#23-security)
+24. [Auto-Update](#24-auto-update)
+25. [FAQ / Troubleshooting](#25-faq--troubleshooting)
 
 ---
 
@@ -877,7 +878,26 @@ So as soon as a project **configures** its drop on SeaDrop (often hours/days bef
 
 ---
 
-## 20. Activity Feed
+## 20. RH FireHouse
+
+**Tools > RH FireHouse** in the sidebar: a live mint radar for **Robinhood Chain**. Collections are ranked by "heat" over a selectable time window — built to surface real momentum and filter out the mint spam that floods the chain.
+
+### How to read it
+- **Window selector**: 1m / 5m / 15m / 30m / 1h / 6h / 24h. Switching windows is instant (aggregation is local — zero network calls).
+- Each row: collection (image + name, click → OpenSea), **MINTS** in the window, **MINTERS** (unique wallets), **SPIKE** (velocity vs the previous equal window — ▲×3 means minting 3× faster; NEW = first appearance), **PRICE** (current mint price, with a pulsing `FREE → 0.001 ETH` badge if the price changed mid-mint — one of the strongest demand signals), **SUPPLY** progress toward sold-out, last mint, and **PROOF** (𝕏 / website / Discord linked on OpenSea).
+- **LIVE / SOON** badge: the collection has an active (or configured) OpenSea drop page.
+- **+ Task**: opens the task modal pre-filled AND auto-selects (or creates) a Robinhood task group — one click from radar to mint.
+- **✕ Hide**: permanently blacklists a spam collection from the radar.
+
+### Anti-bot heat score
+Unique minters lead the ranking, but they're cheap to fake on a near-free-gas chain, so the score also weighs: capped mint volume (1000 mints from 5 wallets don't rank), the velocity spike, progression toward sold-out (40-99%), a mid-mint **price increase**, and OS social proof. Collections with fewer than 2 unique minters or 3 mints never show.
+
+### Under the hood / call budget
+Scanning uses the free public Robinhood RPC (throttled, with backoff) — your Ethereum RPC (Alchemy) is never touched. On first open, 24h of history backfills in the background (progress shown); after that only new blocks are scanned, and only while the page is open. OpenSea enrichment is cached aggressively (~2-5 requests/min steady state on your existing key). Windows up to 1h are exact; 6h/24h use hourly aggregates (a very hot collection may show "2000+" minters).
+
+---
+
+## 21. Activity Feed
 
 **Feed** tab (v1.11.25+): the activity of all your wallets aggregated into a single date-sorted stream. Listings, sales, buys, mints, offers, NFT transfers and token swaps.
 
@@ -925,7 +945,7 @@ Two complementary sources, scanned in parallel:
 
 ---
 
-## 21. Quick Task
+## 22. Quick Task
 
 Available via **Ctrl+Shift+Q** or the Quick icon in the Tasks header. Creates a task from an existing TX (explorer URL or hash).
 
@@ -971,7 +991,7 @@ Confirmation toast: "Quick task created for N wallet(s) in 'Group X'".
 
 ---
 
-## 22. Security
+## 23. Security
 
 ### Encryption
 - All private keys are encrypted with **AES-256-GCM**
@@ -993,7 +1013,7 @@ Confirmation toast: "Quick task created for N wallet(s) in 'Group X'".
 
 ---
 
-## 23. Auto-Update
+## 24. Auto-Update
 
 Blitz updates itself automatically when a new version is available.
 
@@ -1010,7 +1030,7 @@ Updates are automatic, and also checked on every app launch.
 
 ---
 
-## 24. FAQ / Troubleshooting
+## 25. FAQ / Troubleshooting
 
 ### "No RPC configured"
 You haven't added an RPC, or no RPC is active. Go to Settings > Add RPC.
