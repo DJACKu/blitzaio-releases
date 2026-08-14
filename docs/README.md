@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.31)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.32)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -883,17 +883,24 @@ So as soon as a project **configures** its drop on SeaDrop (often hours/days bef
 **Tools > RH FireHouse** in the sidebar: a live mint radar for **Robinhood Chain**. Collections are ranked by "heat" over a selectable time window — built to surface real momentum and filter out the mint spam that floods the chain.
 
 ### How to read it
-- **Window selector**: 1m / 5m / 15m / 30m / 1h / 6h / 24h. Switching windows is instant (aggregation is local — zero network calls).
+- **Window selector**: 1m / 5m / 15m / 30m / 1h / 6h / 24h. Switching windows repaints instantly from the local store.
+- **Sortable columns**: click MINTS / MINTERS / SPIKE / PRICE / SUPPLY / LAST MINT to sort (click again for ascending, a third time to return to the Heat ranking). Sorting by LAST MINT puts the collections that just minted on top.
 - Each row: collection (image + name, click → OpenSea), **MINTS** in the window, **MINTERS** (unique wallets), **SPIKE** (velocity vs the previous equal window — ▲×3 means minting 3× faster; NEW = first appearance), **PRICE** (current mint price, with a pulsing `FREE → 0.001 ETH` badge if the price changed mid-mint — one of the strongest demand signals), **SUPPLY** progress toward sold-out, last mint, and **PROOF** (𝕏 / website / Discord linked on OpenSea).
 - **LIVE / SOON** badge: the collection has an active (or configured) OpenSea drop page.
 - **+ Task**: opens the task modal pre-filled AND auto-selects (or creates) a Robinhood task group — one click from radar to mint.
 - **✕ Hide**: permanently blacklists a spam collection from the radar.
+- Under each collection name: **"1st mint Xh ago"** — the exact age of the collection's very first mint (green when under 2h: brand-new contract, not an old one re-pumping).
+
+### Upcoming tab — beat the block time
+Robinhood produces ~4 blocks per second: a hyped public phase can mint out in a single second, far too fast to react to. The **Upcoming** tab is the counter: it watches SeaDrop drop **configurations** on-chain (projects post them hours or days before launch) and shows every scheduled drop with its **exact start time (live countdown), price and max per wallet** — read straight from the contract, re-verified on-chain for drops starting within 2 hours (✓ badge).
+
+The **⚡ Arm** button turns a row into a scheduled task in one click: pre-filled, scheduled at the exact start time on a Robinhood task group. At start minus a few seconds the engine arms the wallets, and the fast-chain profile does the rest: on Robinhood task groups, Spam mode defaults to **150ms** between retries (instead of 1000ms) and transient-revert retries (`NotActive`, stage cap…) fire every **1s** (instead of 6s) — your transactions hammer the opening boundary and land in the first block where the mint accepts.
 
 ### Anti-bot heat score
 Unique minters lead the ranking, but they're cheap to fake on a near-free-gas chain, so the score also weighs: capped mint volume (1000 mints from 5 wallets don't rank), the velocity spike, progression toward sold-out (40-99%), a mid-mint **price increase**, and OS social proof. Collections with fewer than 2 unique minters or 3 mints never show.
 
 ### Under the hood / call budget
-Scanning uses the free public Robinhood RPC (throttled, with backoff) — your Ethereum RPC (Alchemy) is never touched. On first open, 24h of history backfills in the background (progress shown); after that only new blocks are scanned, and only while the page is open. OpenSea enrichment is cached aggressively (~2-5 requests/min steady state on your existing key). Windows up to 1h are exact; 6h/24h use hourly aggregates (a very hot collection may show "2000+" minters).
+Scanning uses the free public Robinhood RPC (throttled, with backoff) — your Ethereum RPC (Alchemy) is never touched. On first open, 2h of history backfills in the background in ~1-2 min (progress shown); deeper history (6h/24h) is only fetched when you actually select those windows. After that only new blocks are scanned, and only while the page is open. OpenSea enrichment is cached aggressively (~2-5 requests/min steady state on your existing key). Windows up to 1h are exact; 6h/24h use hourly aggregates (a very hot collection may show "2000+" minters).
 
 ---
 
