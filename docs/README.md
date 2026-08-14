@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.34)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.35)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -260,6 +260,8 @@ OpenSea does **not** provide a public endpoint to generate keys programmatically
 | **Manual** | Fixed manual gas limit on top of the gas price. |
 
 > Before v1.11.14, "Custom" without a priority left the tip at the ethers default (~1 gwei), which lost mint races. Fixed: the tip now follows the Max Fee.
+
+> **Robinhood Chain**: it's a FCFS chain (Arbitrum Orbit) — the sequencer orders transactions by **arrival time**, not gas price, so tips buy nothing. Rapid mode there automatically uses priority 0 with a wide max-fee cushion (only the base fee, ~0.01 gwei, is ever charged). The real edge is latency: see **Robinhood Broadcast RPCs** in Settings.
 
 ### Advanced tab
 | Field | Description |
@@ -560,6 +562,7 @@ Grant `setApprovalForAll` to an operator (OpenSea Seaport, Blur) for several wal
 | **Ethereum RPC** | List of configured RPCs. Add/remove/test |
 | **OpenSea API Key** | Global API key for OpenSea Drop mode |
 | **Etherscan API Key** | API key for the Profit Calculator (scans TX history) |
+| **Robinhood Broadcast RPCs** | Advanced: extra RPC endpoints (one per line, e.g. a dedicated low-latency node). Robinhood is FCFS — every RH mint TX is signed once and blasted to all endpoints simultaneously; the fastest path to the sequencer wins, duplicates are dropped by hash. FireHouse scanning never touches these (pinned to the public RPC). |
 | **Discord Webhook** | Discord webhook URL for task notifications (success/fail) |
 | **Default Gas Strategy** | Default Max Fee and Priority Fee for new tasks |
 | **Sound Notifications** | Play a sound on successful mint (on by default) |
