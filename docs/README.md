@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.36)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.37)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -185,6 +185,7 @@ If **Auto Refresh Balances** is enabled in Settings, balances refresh automatica
 Wallets are chain-agnostic — the same address exists on Ethereum, Base and Robinhood Chain, and the chain is only picked when signing. Each wallet group card has three toggleable chips (**ETH / BASE / RH**) to tag which chain(s) the group is meant for (one, two or all three — purely organizational, nothing is restricted):
 - A group tagged with **exactly one** non-Ethereum chain shows **that chain's balances** in the wallet table (read-only — the stored mainnet balance is untouched).
 - The Distributor / Recollector / Mass Transfer / Bridge tools **auto-select the tagged chain** when you pick a single-chain group (still overridable).
+- Tags also act as a **per-chain wallet preset**: task drafts for Base/Robinhood (FireHouse + Task / Arm, Quick Task on a detected Base/RH transaction) automatically pre-select the wallet group tagged for that chain. Ethereum keeps your normal defaults.
 
 ### ENS Resolution
 Blitz automatically resolves ENS names (e.g. `vitalik.eth`) for each wallet. If a wallet has an ENS name, it shows in blue next to the nickname in the table. In privacy mode the ENS name is hidden.
@@ -896,6 +897,9 @@ So as soon as a project **configures** its drop on SeaDrop (often hours/days bef
 - **Sortable columns**: click MINTS / MINTERS / SPIKE / PRICE / SUPPLY / LAST MINT to sort (click again for ascending, a third time to return to the Heat ranking). Sorting by LAST MINT puts the collections that just minted on top.
 - Each row: collection (image + name, click → OpenSea), **MINTS** in the window, **MINTERS** (unique wallets), **TREND** (a mint-velocity sparkline — green when accelerating, red when dying — plus the ▲×N spike vs the previous window), **PRICE** (current mint price, a pulsing `FREE → 0.001 ETH` badge if the price changed mid-mint, and the **OpenSea floor with the profit multiple** — `floor 0.004 ×4` in green is a money printer, red means the floor is under the mint price), **SUPPLY** progress toward sold-out, last mint, and **PROOF** (𝕏 / website / Discord linked on OpenSea).
 - **Search** (header field) filters both tabs by name, contract or slug.
+- **Filters** (shared by both tabs, persisted): price — **All / Free / Free + ≤ X ETH** (editable max; requiring a known sane price also hides token-denominated junk like "4344 ETH" SeaDrop configs, flagged ⚠ elsewhere) — plus **Socials** (only collections with 𝕏/website/Discord linked) and **OS drop** (only collections with an actual OpenSea drop page).
+- **+ Task / ⚡ Arm land ready to fire**: the task modal opens on the OpenSea tab with slug, contract, schedule, quantity pre-filled to the drop's **max per wallet**, the Robinhood task group selected — and the **wallet group tagged RH** (see Chain tags, section 4) pre-chosen. One click on Create finishes it.
+- Background refreshes **never make the board jump**: data updates in place; re-ranking by heat only happens on a manual Refresh or window change.
 - **LIVE / SOON** badge: the collection has an active (or configured) OpenSea drop page.
 - **+ Task**: opens the task modal pre-filled AND auto-selects (or creates) a Robinhood task group — one click from radar to mint.
 - **✕ Hide**: permanently blacklists a spam collection from the radar.
