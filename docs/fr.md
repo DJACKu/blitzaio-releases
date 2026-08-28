@@ -3,7 +3,7 @@
 > NFT Minting Bot pour Ethereum, Base & Sepolia (v1.11.26)
 
 > 🇬🇧 English version (reference, up to date): [click here](#/)
-> Cette version francaise date de la v1.11.26 — les nouveautes (chaine Robinhood, Bridge, alertes Drops, reprice Listing) sont documentees dans la version anglaise.
+> Cette version francaise date de la v1.11.26 — les nouveautes (chaine Robinhood, Bridge, alertes Drops, reprice Listing) sont documentees dans la version anglaise. Exception : le **Contrôle à distance Discord** (v1.11.39) est documenté en français tout en bas de ce guide.
 
 ---
 
@@ -1049,3 +1049,53 @@ L'URL de la collection est `opensea.io/collection/slug`. Le slug est la derniere
 | Ctrl+2 | Tasks |
 | Ctrl+3 | Wallets |
 | Ctrl+4 | Settings |
+
+---
+
+## Contrôle à distance Discord (nouveau en v1.11.39)
+
+Pilotez Blitz depuis votre téléphone : un bot Discord personnel tourne **dans l'app** et n'obéit qu'à votre compte. Le PC doit faire tourner Blitz (et être déverrouillé pour tout ce qui signe des transactions). Rien ne transite par un serveur tiers : le bot tourne chez vous.
+
+### Setup (une fois, ~5 minutes)
+
+**1. Créer le bot**
+- Allez sur [discord.com/developers/applications](https://discord.com/developers/applications) → **New Application** → nommez-la (ex. « Blitz Remote ») → Create
+- Menu de gauche → **Bot** → **Reset Token** → **copiez le token tout de suite** (il ne s'affiche qu'une fois — perdu ? refaites Reset)
+- Aucun intent privilégié nécessaire : laissez *Presence*, *Server Members* et *Message Content* **désactivés**
+
+**2. L'inviter sur votre serveur**
+- Utilisez un **serveur privé où vous êtes seul** (créez-en un si besoin) — les réponses affichent vos noms de tasks et nombres de wallets
+- Menu de gauche → **OAuth2** → *URL Generator* → cochez les scopes **`bot`** et **`applications.commands`** (aucune permission supplémentaire)
+- Ouvrez l'URL générée dans le navigateur → choisissez votre serveur → Autoriser
+
+**3. Récupérer votre User ID**
+- Discord → Paramètres → **Avancés** → activez le **Mode développeur**
+- Clic droit sur votre propre profil n'importe où → **Copier l'identifiant de l'utilisateur**
+
+**4. Brancher dans Blitz**
+- **Settings → Discord Bot Token** (collez le token) + **Discord User ID** (collez l'ID)
+- Le bot se connecte en quelques secondes, sans redémarrer. Tapez `/` sur votre serveur : les commandes Blitz apparaissent (jusqu'à 1 min la première fois)
+
+### Commandes
+
+| Commande | Effet |
+|---|---|
+| `/status` | Résumé du moteur : tasks par statut, état verrouillé/déverrouillé |
+| `/tasks` | Liste des tasks récentes avec leurs ids |
+| `/osmint slug` | Crée + lance une task mode OpenSea. Le `slug` s'autocomplète depuis votre onglet Drops (drops live en premier). Groupe de wallets choisi automatiquement via vos tags de chaîne ; `qty` prend par défaut le max par wallet du drop |
+| `/quicktask tx` | Quick Task depuis un hash de TX : parse le mint (chaîne auto-détectée), crée une task par wallet du groupe et les lance |
+| `/start id` / `/stop [id]` | Démarre / arrête une task — l'`id` s'autocomplète avec les noms. `/stop` sans id arrête tout |
+
+Le flux nominal fait deux taps : `/osmint` → choisir le drop dans la liste → envoyer. Les résultats arrivent par votre webhook Discord comme d'habitude.
+
+**Sécurité** : le bot n'obéit qu'à un seul Discord User ID ; tout autre compte reçoit « Not authorized ». Le token du bot donne le contrôle complet de votre moteur — traitez-le comme une clé privée (ne le partagez jamais). Les commandes qui signent sont refusées tant que l'app est verrouillée.
+
+### Dépannage
+
+| Symptôme | Solution |
+|---|---|
+| Les commandes n'apparaissent pas en tapant `/` | Attendez ~1 min après la première connexion ; vérifiez que l'URL d'invitation avait **les deux** scopes `bot` et `applications.commands` (ré-invitez sinon) |
+| Le bot est hors ligne | Token erroné ou app fermée — recollez le token dans Settings (un Reset Token invalide l'ancien) |
+| « Not authorized. » | Le User ID dans Settings ne correspond pas à votre compte — recopiez-le avec le Mode développeur |
+| « App is locked » | Déverrouillez Blitz sur le PC (mot de passe maître) |
+| `/osmint` dit « No OpenSea API key » | Renseignez d'abord votre clé API OS dans Settings |
