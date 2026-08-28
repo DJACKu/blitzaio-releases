@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.37)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.39)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -30,9 +30,10 @@
 20. [RH FireHouse](#20-rh-firehouse)
 21. [Activity Feed](#21-activity-feed)
 22. [Quick Task](#22-quick-task)
-23. [Security](#23-security)
-24. [Auto-Update](#24-auto-update)
-25. [FAQ / Troubleshooting](#25-faq--troubleshooting)
+23. [Discord Remote Control](#23-discord-remote-control)
+24. [Security](#24-security)
+25. [Auto-Update](#25-auto-update)
+26. [FAQ / Troubleshooting](#26-faq--troubleshooting)
 
 ---
 
@@ -1012,7 +1013,34 @@ Confirmation toast: "Quick task created for N wallet(s) in 'Group X'".
 
 ---
 
-## 23. Security
+## 23. Discord Remote Control
+
+Drive Blitz from your phone: a personal Discord bot runs inside the app and accepts slash commands from your account only. The PC must be running Blitz (and unlocked for anything that signs transactions).
+
+### Setup (once)
+
+1. Go to [discord.com/developers/applications](https://discord.com/developers/applications) → **New Application** → tab **Bot** → **Reset Token** → copy the token
+2. Tab **OAuth2 → URL Generator** → check `bot` + `applications.commands` → open the generated URL and invite the bot to your private server
+3. In Discord: Settings → Advanced → enable **Developer Mode**, then right-click your own profile → **Copy User ID**
+4. In Blitz: **Settings → Discord Bot Token** + **Discord User ID** — the bot connects as soon as both are filled (no restart needed)
+
+### Commands
+
+| Command | What it does |
+|---|---|
+| `/status` | Engine summary: tasks by status, lock state |
+| `/tasks` | List recent tasks with their ids |
+| `/osmint slug` | Create + start an OpenSea-mode task. `slug` autocompletes from your Drops tab (live drops first). Wallet group auto-picked from your chain tags; `qty` defaults to the drop's max per wallet |
+| `/quicktask tx` | Quick Task from a TX hash: parses the mint (chain auto-detected), creates one task per wallet in the group and starts them |
+| `/start id` / `/stop [id]` | Start / stop a task — `id` autocompletes with task names. `/stop` without id stops everything |
+
+Options with autocomplete show live suggestions (your wallet groups with sizes, your drops with prices) — the nominal flow is two taps: `/osmint` → pick the drop → send. Results land through your Discord Webhook as usual.
+
+**Security**: the bot obeys a single Discord user ID; everyone else gets "Not authorized". The bot token grants full control of your engine — treat it like a private key. Commands that sign transactions are refused while the app is locked.
+
+---
+
+## 24. Security
 
 ### Encryption
 - All private keys are encrypted with **AES-256-GCM**
@@ -1034,7 +1062,7 @@ Confirmation toast: "Quick task created for N wallet(s) in 'Group X'".
 
 ---
 
-## 24. Auto-Update
+## 25. Auto-Update
 
 Blitz updates itself automatically when a new version is available.
 
@@ -1051,7 +1079,7 @@ Updates are automatic, and also checked on every app launch.
 
 ---
 
-## 25. FAQ / Troubleshooting
+## 26. FAQ / Troubleshooting
 
 ### "No RPC configured"
 You haven't added an RPC, or no RPC is active. Go to Settings > Add RPC.
