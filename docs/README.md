@@ -1017,12 +1017,25 @@ Confirmation toast: "Quick task created for N wallet(s) in 'Group X'".
 
 Drive Blitz from your phone: a personal Discord bot runs inside the app and accepts slash commands from your account only. The PC must be running Blitz (and unlocked for anything that signs transactions).
 
-### Setup (once)
+### Setup (once, ~5 minutes)
 
-1. Go to [discord.com/developers/applications](https://discord.com/developers/applications) → **New Application** → tab **Bot** → **Reset Token** → copy the token
-2. Tab **OAuth2 → URL Generator** → check `bot` + `applications.commands` → open the generated URL and invite the bot to your private server
-3. In Discord: Settings → Advanced → enable **Developer Mode**, then right-click your own profile → **Copy User ID**
-4. In Blitz: **Settings → Discord Bot Token** + **Discord User ID** — the bot connects as soon as both are filled (no restart needed)
+**1. Create the bot**
+- Go to [discord.com/developers/applications](https://discord.com/developers/applications) → **New Application** → name it (e.g. "Blitz Remote") → Create
+- Left menu → **Bot** → **Reset Token** → **copy the token now** (it's shown only once — if you lose it, just Reset again)
+- No privileged intents needed: leave *Presence*, *Server Members* and *Message Content* **off**
+
+**2. Invite it to your server**
+- Use a **private server where you are alone** (create one if needed) — replies show your task names and wallet counts
+- Left menu → **OAuth2** → *URL Generator* → check the scopes **`bot`** and **`applications.commands`** (no bot permissions needed beyond the default)
+- Open the generated URL in your browser → pick your server → Authorize
+
+**3. Get your user ID**
+- Discord → User Settings → **Advanced** → enable **Developer Mode**
+- Right-click your own name/avatar anywhere → **Copy User ID**
+
+**4. Plug it into Blitz**
+- **Settings → Discord Bot Token** (paste the token) + **Discord User ID** (paste the ID)
+- The bot connects within seconds — no restart needed. Type `/` in your server: the Blitz commands should appear (allow up to a minute the first time while Discord propagates them)
 
 ### Commands
 
@@ -1036,7 +1049,17 @@ Drive Blitz from your phone: a personal Discord bot runs inside the app and acce
 
 Options with autocomplete show live suggestions (your wallet groups with sizes, your drops with prices) — the nominal flow is two taps: `/osmint` → pick the drop → send. Results land through your Discord Webhook as usual.
 
-**Security**: the bot obeys a single Discord user ID; everyone else gets "Not authorized". The bot token grants full control of your engine — treat it like a private key. Commands that sign transactions are refused while the app is locked.
+**Security**: the bot obeys a single Discord user ID; everyone else gets "Not authorized". The bot token grants full control of your engine — treat it like a private key (never share it, never post it). Commands that sign transactions are refused while the app is locked. Nothing transits through any third-party server: the bot runs inside your own app, on your own PC.
+
+### Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Commands don't appear when typing `/` | Wait ~1 min after first connection; make sure the invite URL had **both** `bot` and `applications.commands` scopes (re-invite if not) |
+| Bot shows offline | Token wrong or app not running — re-paste the token in Settings (a Reset Token in the dev portal invalidates the old one) |
+| "Not authorized." | The User ID in Settings doesn't match your account — re-copy it with Developer Mode |
+| "App is locked" | Unlock Blitz on the PC (master password) — wallets can't sign while locked |
+| `/osmint` says "No OpenSea API key" | Set your OS API key in Settings first |
 
 ---
 
