@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.41)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.42)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -1038,7 +1038,7 @@ Drive Blitz from your phone: a personal Discord bot runs inside the app and acce
 
 **4. Plug it into Blitz**
 - **Settings → Discord Bot Token** (paste the token) + **Discord User ID** (paste the ID)
-- The bot connects within seconds — no restart needed. Type `/` in your server: the Blitz commands should appear (allow up to a minute the first time while Discord propagates them)
+- The bot connects within seconds — no restart needed. Type `/` in your server: the Blitz commands appear immediately (press Ctrl+R in Discord if the client caches an old list)
 
 ### Commands
 
@@ -1058,7 +1058,7 @@ Options with autocomplete show live suggestions (your wallet groups with sizes, 
 
 | Symptom | Fix |
 |---|---|
-| Commands don't appear when typing `/` | Wait ~1 min after first connection; make sure the invite URL had **both** `bot` and `applications.commands` scopes (re-invite if not) |
+| Commands don't appear when typing `/` | Press Ctrl+R in Discord (client cache); make sure the invite URL had **both** `bot` and `applications.commands` scopes (re-invite if not) |
 | Bot shows offline | Token wrong or app not running — re-paste the token in Settings (a Reset Token in the dev portal invalidates the old one) |
 | "Not authorized." | The User ID in Settings doesn't match your account — re-copy it with Developer Mode |
 | "App is locked" | Unlock Blitz on the PC (master password) — wallets can't sign while locked |
