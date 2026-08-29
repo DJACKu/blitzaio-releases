@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.39)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.40)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -135,9 +135,12 @@ You can add several RPCs per network. Blitz picks the first active RPC for each 
 The **Drops** page scan sends heavy `eth_getLogs` batches that can saturate a free-tier RPC and slow down your mints (both fight for the same RPC). In **Settings > Ethereum RPC**, the **Drops Scan RPC** field lets you point the Drops scan at a separate RPC. Leave it empty and the scan uses the main RPC (default behavior). Recommended if you use the Drops page while tasks are running.
 
 ### RPC indicator
-The colored dot at the top right of the window shows the connection state:
-- Green = connected
-- Red = disconnected or no RPC configured
+The colored dot at the top right of the window shows the health of your **primary** RPC:
+- **Green — RPC Connected**: your RPC responds normally
+- **Yellow — RPC Degraded**: your RPC is failing (rate limit, exhausted monthly quota…) and Blitz is surviving on public fallbacks. Gas readings still work, but everything else that needs your RPC (balances, listing, eligibility) will error — check your provider's dashboard/quota
+- **Red — No RPC**: nothing responds, or no RPC configured
+
+If balances fail to refresh for most wallets, a red toast now tells you why (e.g. "RPC rate-limited or quota exceeded (429)") instead of silently showing stale numbers.
 
 ---
 
