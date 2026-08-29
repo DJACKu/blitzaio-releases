@@ -1,6 +1,6 @@
 # Blitz AIO - Complete Guide
 
-> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.40)
+> NFT Minting Bot for Ethereum, Base, Robinhood Chain & Sepolia (v1.11.41)
 
 > 🇫🇷 Version française : [cliquer ici](#/fr) (may lag behind — this English guide is the reference)
 
@@ -129,7 +129,7 @@ Blitz needs an RPC to talk to the blockchain. Supported networks: Ethereum Mainn
 - **Ethereum**: needs an external RPC (Alchemy recommended)
 
 ### Multiple RPCs
-You can add several RPCs per network. Blitz picks the first active RPC for each network.
+You can add several RPCs per network. Blitz uses the first active RPC — and if it keeps failing (rate limit, exhausted monthly quota…), it **automatically rotates to the next active RPC** in the list within ~1 minute. Tip: keep a free public endpoint (e.g. `https://ethereum-rpc.publicnode.com`) as a backup entry below your main RPC.
 
 ### Dedicated Drops Scan RPC (optional, v1.11.20)
 The **Drops** page scan sends heavy `eth_getLogs` batches that can saturate a free-tier RPC and slow down your mints (both fight for the same RPC). In **Settings > Ethereum RPC**, the **Drops Scan RPC** field lets you point the Drops scan at a separate RPC. Leave it empty and the scan uses the main RPC (default behavior). Recommended if you use the Drops page while tasks are running.
@@ -179,9 +179,9 @@ Click the "Export" icon in the header:
 - **Warning**: the exported file contains private keys in plain text!
 
 ### Check Balances
-Click the "Balance Check" icon in the header to refresh the ETH balances of all wallets.
+Balances refresh **once at app launch**, then on demand: click the "Balance Check" icon in the header whenever you want fresh numbers.
 
-If **Auto Refresh Balances** is enabled in Settings, balances refresh automatically every 60 seconds.
+> The old "Auto Refresh Balances" 60-second interval was removed in v1.11.41: it silently burned RPC quota around the clock (tens of thousands of calls per day with a large wallet list) for numbers nobody was looking at.
 
 > Balances shown on the Wallets page are **Ethereum mainnet** balances by default. The Distributor / Recollector / Bridge tools show balances on whichever chain you select there.
 
